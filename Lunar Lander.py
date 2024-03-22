@@ -78,7 +78,7 @@ target_q_network = Sequential([
     Dense(units=num_actions, activation='linear'),
     ])
 
-### START CODE HERE ###
+
 optimizer = Adam(learning_rate=ALPHA)
 
 experience = namedtuple("Experience", field_names=["state", "action", "reward", "next_state", "done"])
@@ -115,9 +115,9 @@ def compute_loss(experiences, gamma, q_network, target_q_network):
                                                 tf.cast(actions, tf.int32)], axis=1))
 
     # Compute the loss
-    ### START CODE HERE ###
+    
     loss = MSE(y_targets, q_values)
-    ### END CODE HERE ###
+   
 
     return loss
 
@@ -196,13 +196,11 @@ for i in range(num_episodes):
         memory_buffer.append(experience(state, action, reward, next_state, done))
 
         # Only update the network every NUM_STEPS_FOR_UPDATE time steps.
-        # Replace utils.check_update_conditions(t, NUM_STEPS_FOR_UPDATE, memory_buffer) with a simple condition
         update = t % NUM_STEPS_FOR_UPDATE == 0 and len(memory_buffer) >= MEMORY_SIZE
 
 
         if update:
             # Sample random mini-batch of experience tuples (S,A,R,S') from D
-            # Replace utils.get_experiences(memory_buffer) with random sampling
             experiences = random.sample(memory_buffer, BATCH_SIZE)
             experiences = experience(*zip(*experiences))
 
